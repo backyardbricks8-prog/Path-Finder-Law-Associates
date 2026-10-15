@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { forwardToGoogleSheets, EnquiryData } from '@/lib/sheets';
 
 interface EnquiryPayload {
   name: string;
   email: string;
   phone: string;
-  practiceArea: string;
+  practiceArea?: string;
+  service?: string;
   message: string;
   honeypot?: string;
 }
@@ -18,7 +20,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, message: 'Enquiry received' }, { status: 200 });
     }
 
-    const { name, email, phone, practiceArea, message } = body;
+    const { name, email, phone, message } = body;
+    const practiceArea = body.practiceArea || body.service || 'General Consultation';
 
     // Server-side validation
     if (!name || name.trim().length < 2 || name.trim().length > 100) {
@@ -51,20 +54,35 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // In a production deployment with email integration, this would dispatch via Resend/SMTP
-    // Return verified receipt confirmation
+    // Generate verified reference tracking ID
     const referenceId = `PFLA-${Date.now().toString(36).toUpperCase()}`;
+    const timestamp = new Date().toISOString();
+
+    const enquiryRecord: EnquiryData = {
+      referenceId,
+      timestamp,
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      phone: phone.trim(),
+      practiceArea: practiceArea.trim(),
+      message: message.trim(),
+    };
+
+    // Forward to Google Sheets via Google Apps Script Web App
+    const sheetResult = await forwardToGoogleSheets(enquiryRecord);
 
     return NextResponse.json(
       {
         success: true,
         referenceId,
         message: 'Your enquiry has been received by our chambers. An advocate will review your matter and contact you.',
-        timestamp: new Date().toISOString(),
+        timestamp,
+        sheetsSync: sheetResult.status,
       },
       { status: 200 }
     );
   } catch (error) {
+    console.error('Error in /api/enquiry:', error);
     return NextResponse.json(
       { success: false, error: 'An unexpected server error occurred while processing your request. Please call our chambers directly.' },
       { status: 500 }
