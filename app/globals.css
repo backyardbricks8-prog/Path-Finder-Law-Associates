@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --obsidian: #111111;
+    --burgundy: #800020;
+    --champagne: #EACEAA;
+    --sand: #FBF9F5;
+    --hairline: rgba(17, 17, 17, 0.12);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color: #111111;
+    background-color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: #800020;
+    color: #FFFFFF;
+  }
+}
+
+/* Swiss 12-column grid alignment guide helper */
+.grid-swiss {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 1.5rem;
+}
