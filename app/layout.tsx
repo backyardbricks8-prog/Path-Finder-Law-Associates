@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
+import WhatsAppButton from '@/components/WhatsAppButton';
 import './globals.css';
 
 const inter = Inter({
@@ -95,6 +96,7 @@ export default function RootLayout({
       </head>
       <body className="bg-white text-[#111111] font-sans antialiased selection:bg-[#800020] selection:text-white" suppressHydrationWarning>
         {children}
+        <WhatsAppButton />
       </body>
     </html>
   );

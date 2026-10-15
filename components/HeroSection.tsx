@@ -9,25 +9,6 @@ import { FIRM_DETAILS } from '@/lib/data';
 export default function HeroSection() {
   return (
     <section className="relative w-full border-b border-black/10 bg-white">
-      {/* Top Editorial Rule & Metadata Ribbon */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-8 pb-4">
-        <div className="flex flex-wrap items-center justify-between text-xs font-mono uppercase tracking-widest text-[#111111]/60 border-b border-black/10 pb-4 gap-4">
-          <div className="flex items-center gap-3">
-            <span className="text-[#800020] font-bold">PFLA / 2013</span>
-            <span aria-hidden="true" className="text-black/30">·</span>
-            <span>New Delhi Chambers</span>
-            <span aria-hidden="true" className="text-black/30">·</span>
-            <span>Advocates & Solicitors</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span>High Court of Delhi</span>
-            <span aria-hidden="true" className="text-black/30">/</span>
-            <span>NCLT</span>
-            <span aria-hidden="true" className="text-black/30">/</span>
-            <span>Specialized Tribunals</span>
-          </div>
-        </div>
-      </div>
 
       {/* Main Hero Split Grid */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12 lg:py-20">
